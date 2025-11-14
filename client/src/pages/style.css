@@ -1,0 +1,128 @@
+/* Header */
+.header {
+	padding: 40px 0;
+	min-height: 695px;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	background-color: var(--header-bg);
+	background-image: url('./../img/header-bg.png');
+	background-repeat: no-repeat;
+	background-size: auto;
+	background-position: center center;
+
+	color: var(--header-text);
+	text-align: center;
+}
+
+.header__wrapper {
+	padding: 0 15px;
+	max-width: 660px;
+}
+
+.header__title {
+	margin-bottom: 20px;
+	font-size: 40px;
+	font-weight: 700;
+	line-height: 1.4;
+}
+
+.header__title strong {
+	font-size: 60px;
+	font-weight: 700;
+}
+
+.header__title em {
+	font-style: normal;
+	color: var(--accent);
+}
+
+.header__text {
+	margin-bottom: 40px;
+	font-size: 18px;
+	line-height: 1.333;
+}
+
+.header__text p + p {
+	margin-top: 0.5em;
+}
+.btn {
+	margin-right: 20px;
+	margin-top: 20px;
+}
+
+.header__image img {
+  width: 50%;
+  max-width: 200px;
+  height: auto;
+  display: block;
+  margin: 20px auto;
+}
+/* Contact Form */
+.contact-form {
+	margin-top: 2rem;
+	padding: 20px;
+	border: 1px solid var(--black-border);
+	border-radius: 12px;
+	background: #1f1f1f; /* darker background */
+	box-shadow: var(--box-shadow);
+}
+
+.contact-form h2 {
+	color: var(--accent); /* "SEND ME A MESSAGE" purple */
+	margin-bottom: 15px;
+}
+
+.contact-form form {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+}
+
+.contact-form input,
+.contact-form textarea {
+	padding: 10px;
+	border: 1px solid #444;
+	border-radius: 8px;
+	font-size: 1rem;
+	width: 100%;
+	background: #2b2b2b; /* dark input */
+	color: var(--white);
+}
+
+.contact-form input::placeholder,
+.contact-form textarea::placeholder {
+	color: #bbb; /* placeholder color */
+}
+
+.contact-form textarea {
+	resize: vertical;
+	min-height: 100px;
+}
+
+.contact-form .btn {
+	align-self: flex-start;
+	padding: 10px 20px;
+	background: var(--accent); /* accent color */
+	color: var(--white);
+	border: none;
+	border-radius: 8px;
+	cursor: pointer;
+	font-weight: 600;
+}
+
+.contact-form .btn:hover {
+	opacity: 0.9;
+}
+
+/* Contact Info Links */
+.content-list__item a {
+	color: var(--white); /* phone and email white */
+	text-decoration: none;
+}
+
+.content-list__item a:hover {
+	text-decoration: underline;
+}
