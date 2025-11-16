@@ -27,6 +27,7 @@ const projectSchema = new mongoose.Schema({
     match: [/.+\@.+\..+/, "Please fill a valid email address"],
     required: "Email is required",
   },
+  
   completion: { type: Date},
 });
 

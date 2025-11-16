@@ -46,12 +46,12 @@ const Navbar = () => {
 						</li>
 						<li className="nav-list__item">
 							<NavLink
-								to="/services"
+								to="/qualifications"
 								className={({ isActive }) =>
 									isActive ? activeLink : normalLink
 								}
 							>
-								Services
+								Qualifications
 							</NavLink>
 						</li>
 						<li className="nav-list__item">
@@ -62,6 +62,16 @@ const Navbar = () => {
 								}
 							>
 								Contacts
+							</NavLink>
+						</li>
+						<li className="nav-list__item">
+							<NavLink
+								to="/signin"
+								className={({ isActive }) =>
+									isActive ? activeLink : normalLink
+								}
+							>
+								Sign In
 							</NavLink>
 						</li>
 					</ul>

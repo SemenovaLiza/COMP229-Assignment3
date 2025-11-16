@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import auth from "./auth-helper.js";
 import { Navigate, useLocation } from "react-router-dom";
-import { signin } from "./api-auth.js";
+import { signin } from "../styles/api-auth.js";
 
 export default function Signin() {
   const location = useLocation();

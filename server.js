@@ -1,13 +1,17 @@
 import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
+import cors from "cors";
 import app from "./server/express.js";
 
 dotenv.config();
 
-const PORT = process.env.PORT;
-const MONGO_URI = process.env.MONGO_URI;
-
+const PORT = 3000;
+const MONGO_URI = 'mongodb://localhost:27017/Skeleton';
+app.use(cors({
+  origin: 'http://localhost:5173',
+  credentials: true
+}));
 mongoose
   .connect(MONGO_URI, {
     useNewUrlParser: true,
@@ -28,11 +32,4 @@ app.listen(PORT, (err) => {
     console.log(err);
   }
   console.info("Server started on port %s.", PORT);
-});
-app.get("/", (req, res) => {
-  res.json({ message: "Welcome to My Portfolio application." });
-});
-
-app.listen(PORT, () => {
-  console.log(`Server is successfully running on port ${PORT}.`);
 });

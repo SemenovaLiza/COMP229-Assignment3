@@ -1,33 +1,58 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState } from "react";
 import "./style.css";
+import { useForm } from "react-hook-form";
+import { create } from '../api/api-contact.js';
+import '@fontsource/roboto/400.css';
 
-const Contacts = () => {
-	const navigate = useNavigate();
-
-	const [formData, setFormData] = useState({
-		firstName: "",
-		lastName: "",
-		contactNumber: "",
-		email: "",
-		message: "",
+export default function Contact() {
+	const { register, handleSubmit, formState: { errors }, reset } = useForm();
+	
+	const [notification, setNotification] = useState({
+		show: false,
+		message: '',
+		isError: false
 	});
 
-	const handleChange = (e) => {
-		const { name, value } = e.target;
-		setFormData({ ...formData, [name]: value });
-	};
-
-	const handleSubmit = (e) => {
-		e.preventDefault();
-		console.log("Form submitted:", formData);
-
-		// Redirect back to home page
-		navigate("/");
+	const submitForm = async (data) => {
+		try {
+			const result = await create(data);
+			
+			if (result.error) {
+				setNotification({
+					show: true,
+					message: result.error,
+					isError: true
+				});
+			} else {
+				setNotification({
+					show: true,
+					message: result.message || 'Contact created successfully!',
+					isError: false
+				});
+				// Reset form after successful submission
+				reset();
+			}
+			
+			// Hide notification after 5 seconds
+			setTimeout(() => {
+				setNotification({ show: false, message: '', isError: false });
+			}, 5000);
+		} catch (error) {
+			console.error('Error submitting form:', error);
+			setNotification({
+				show: true,
+				message: 'An unexpected error occurred. Please try again.',
+				isError: true
+			});
+			
+			setTimeout(() => {
+				setNotification({ show: false, message: '', isError: false });
+			}, 5000);
+		}
 	};
 
 	return (
-		<main className="section">
+		<main className="header">
 			<div className="container">
 				<h1 className="title-1">Contacts</h1>
 
@@ -52,50 +77,72 @@ const Contacts = () => {
 					</li>
 				</ul>
 
-				{/* Contact Form */}
 				<div className="contact-form">
-					<h2 className="title-2" id="contact-form">Send me a message</h2>
-					<form onSubmit={handleSubmit}>
-						<input
-							type="text"
-							name="firstName"
-							placeholder="First Name"
-							value={formData.firstName}
-							onChange={handleChange}
-							required
-						/>
-						<input
-							type="text"
-							name="lastName"
-							placeholder="Last Name"
-							value={formData.lastName}
-							onChange={handleChange}
-							required
-						/>
-						<input
-							type="text"
-							name="contactNumber"
-							placeholder="Contact Number"
-							value={formData.contactNumber}
-							onChange={handleChange}
-						/>
-						<input
-							type="email"
-							name="email"
-							placeholder="Email Address"
-							value={formData.email}
-							onChange={handleChange}
-							required
-						/>
-						<textarea
-							name="message"
-							placeholder="Your Message"
-							value={formData.message}
-							onChange={handleChange}
-							required
-						/>
+					<h2>Send Me A Message</h2>
+					
+					{notification.show && (
+						<div className={notification.isError ? "error-message" : "success-message"}>
+							{notification.message}
+						</div>
+					)}
+					
+					<form onSubmit={handleSubmit(submitForm)}>
+						<div className="form-field">
+							<input
+								type="text"
+								placeholder="First Name"
+								{...register("firstname", { 
+									required: "First name is required",
+									minLength: {
+										value: 2,
+										message: "First name must be at least 2 characters"
+									}
+								})}
+								className={errors.firstname ? 'error' : ''}
+							/>
+							{errors.firstname && (
+								<span className="field-error">{errors.firstname.message}</span>
+							)}
+						</div>
+
+						<div className="form-field">
+							<input
+								type="text"
+								placeholder="Last Name"
+								{...register("lastname", { 
+									required: "Last name is required",
+									minLength: {
+										value: 2,
+										message: "Last name must be at least 2 characters"
+									}
+								})}
+								className={errors.lastname ? 'error' : ''}
+							/>
+							{errors.lastname && (
+								<span className="field-error">{errors.lastname.message}</span>
+							)}
+						</div>
+
+						<div className="form-field">
+							<input
+								type="email"
+								placeholder="Email"
+								{...register("email", { 
+									required: "Email is required",
+									pattern: {
+										value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+										message: "Please enter a valid email address"
+									}
+								})}
+								className={errors.email ? 'error' : ''}
+							/>
+							{errors.email && (
+								<span className="field-error">{errors.email.message}</span>
+							)}
+						</div>
+
 						<button type="submit" className="btn">
-							Send Message
+							Submit
 						</button>
 					</form>
 				</div>
@@ -103,5 +150,3 @@ const Contacts = () => {
 		</main>
 	);
 };
-
-export default Contacts;
